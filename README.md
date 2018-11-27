@@ -1,4 +1,13 @@
-# reversi
+# Reversi
+
+Implementation of Reversi game in VueJS
+
+## Prerequisites
+
+```
+node v8.9+
+yarn v1.3+
+```
 
 ## Project setup
 ```
