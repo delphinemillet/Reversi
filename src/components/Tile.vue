@@ -1,12 +1,12 @@
 <template>
-  <div>{{state}}</div>
+  <div @click="$emit('onClickTile')">{{ state }}</div>
 </template>
 
 <script>
 export default {
   name: 'RTile',
   props: {
-    state: String,
+    state: String
   },
 }
 </script>
