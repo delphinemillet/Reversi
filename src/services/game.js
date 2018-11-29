@@ -1,4 +1,4 @@
-import { WHITE, BLACK, EMPTY } from "../constants/gameStates";
+import { WHITE, BLACK, EMPTY, UNKNOWN } from "../constants/gameStates";
 
 export default {
   cols: Array(...Array(8)),
@@ -21,12 +21,16 @@ export default {
   },
 
   // TILE
+  isInsideBounds(value) {
+    return value >=0 && value <= 7
+  },
+
   setState(i, j, state) {
     this.state[i].splice(j, 1, state)
   },
 
   getState(i, j) {
-    return this.state[i][j]
+    return this.isInsideBounds(i) && this.isInsideBounds(j) ? this.state[i][j] : UNKNOWN
   },
 
   isValid(i, j) {
