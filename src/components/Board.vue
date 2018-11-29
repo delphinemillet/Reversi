@@ -27,5 +27,6 @@ export default {
 <style>
 #board {
   margin: auto;
+  background-color: darkcyan;
 }
 </style>
