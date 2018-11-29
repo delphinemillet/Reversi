@@ -5,6 +5,7 @@ export default {
   rows: Array(...Array(8)),
   state: [],
 
+  // INITIALIZATION
   initGame() {
     this.rows.map((row, i) => {
       this.state[i] = []
@@ -19,6 +20,7 @@ export default {
     this.setPlayer(BLACK)
   },
 
+  // TILE
   setState(i, j, state) {
     this.state[i].splice(j, 1, state)
   },
@@ -27,13 +29,31 @@ export default {
     return this.state[i][j]
   },
 
+  isValid(i, j) {
+    const opponent = this.getOpponent()
+    return this.getState(i, j) === EMPTY
+      ? this.getState(i - 1, j) === opponent
+        || this.getState(i + 1, j) === opponent
+        || this.getState(i + 1, j) === opponent
+        || this.getState(i, j - 1) === opponent
+        || this.getState(i, j + 1) === opponent
+      : false
+  },
+
+  // PLAYERS
   setPlayer(player) {
     this.currentPlayer = player
   },
 
+  getOpponent() {
+    return this.currentPlayer === BLACK ? WHITE : BLACK
+  },
+
+  // GAME
   play(i, j) {
-    const currentPlayer = this.currentPlayer
-    this.setState(i, j, currentPlayer)
-    this.setPlayer(currentPlayer === BLACK ? WHITE : BLACK)
+    if(this.isValid(i, j)) {
+      this.setState(i, j, this.currentPlayer)
+      this.setPlayer(this.getOpponent())
+    }
   }
 };
