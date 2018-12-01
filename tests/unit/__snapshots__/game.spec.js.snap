@@ -170,7 +170,7 @@ Array [
 ]
 `;
 
-exports[`game service play() should set the player's tile and update the current player 1`] = `
+exports[`game service play() should switch the tiles and update the current player 1`] = `
 Array [
   Array [
     "EMPTY",
@@ -206,7 +206,7 @@ Array [
     "EMPTY",
     "EMPTY",
     "BLACK",
-    "WHITE",
+    "BLACK",
     "BLACK",
     "EMPTY",
     "EMPTY",

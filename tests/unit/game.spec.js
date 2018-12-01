@@ -71,7 +71,7 @@ describe('game service', () => {
       expect(game.state).toMatchSnapshot()
       expect(game.currentPlayer).toEqual('BLACK')
     })
-    it('should set the player\'s tile and update the current player', () => {
+    it('should switch the tiles and update the current player', () => {
       game.play(3,2)
       expect(game.state).toMatchSnapshot()
       expect(game.currentPlayer).toEqual('WHITE')
