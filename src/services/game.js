@@ -1,8 +1,6 @@
 import { WHITE, BLACK, EMPTY, SIZE } from "../constants/gameStates";
 
 export default {
-  cols: Array(...Array(8)),
-  rows: Array(...Array(8)),
   state: [],
 
   // INITIALIZATION
@@ -41,6 +39,9 @@ export default {
     return this.currentPlayer === BLACK ? WHITE : BLACK
   },
 
+  getScore(player) {
+    return this.state.reduce((acc, row) => acc + row.filter(state => state === player).length, 0)
+  },
 
   // GAME
   // check if the move is valid

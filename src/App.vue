@@ -2,13 +2,17 @@
   <div id="app">
     <h1>Reversi</h1>
     <Player />
-    <Board />
+    <div class="game">
+      <Board />
+      <Score />
+    </div>
   </div>
 </template>
 
 <script>
 import Player from './components/Player.vue'
 import Board from './components/Board.vue'
+import Score from './components/Score.vue'
 import game from "./services/game"
 
 export default {
@@ -16,6 +20,7 @@ export default {
   components: {
     Player,
     Board,
+    Score,
   },
   beforeCreate() {
     game.initGame()
@@ -31,5 +36,11 @@ export default {
   text-align: center;
   color: #35495e;
   margin-top: 60px;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

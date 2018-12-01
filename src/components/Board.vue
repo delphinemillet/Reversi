@@ -1,10 +1,10 @@
 <template>
   <table id="board">
-    <tr v-for="(row, i) in game.rows" :key="i">
+    <tr v-for="(row, i) in game.state" :key="i">
       <th>{{ i }}</th>
-      <td v-for="(col, j) in game.cols" :key="j">
+      <td v-for="(col, j) in game.state[i]" :key="j">
         <th v-if="!i">{{ j }}</th>
-        <Tile @onClickTile="game.play(i, j)" :state="game.getState(i, j)" />
+        <Tile @onClickTile="game.play(i, j)" :state="col" />
       </td>
     </tr>
   </table>

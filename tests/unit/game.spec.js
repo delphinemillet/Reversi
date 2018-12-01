@@ -24,9 +24,58 @@ describe('game service', () => {
 
   describe('getState()', () => {
     it("should return the tile state for a given position", () => {
-      game.getState(0, 0)
-      expect(game.state[0][0]).toEqual('EMPTY')
-      expect(game.state[3][3]).toEqual('WHITE')
+      expect(game.getState(0, 0)).toEqual('EMPTY')
+      expect(game.getState(3, 3)).toEqual('WHITE')
+    })
+    it("should return null if thr given position is out of bounds", () => {
+      expect(game.getState(-1, 0)).toEqual(null)
+      expect(game.getState(3, 8)).toEqual(null)
+    })
+  })
+
+  describe('isInBounds()', () => {
+    it("should return true for inside bounds position", () => {
+      expect(game.isInBounds(0, 0)).toBeTruthy()
+      expect(game.isInBounds(0, 7)).toBeTruthy()
+      expect(game.isInBounds(7, 0)).toBeTruthy()
+      expect(game.isInBounds(7, 7)).toBeTruthy()
+      expect(game.isInBounds(5, 2)).toBeTruthy()
+    })
+    it("should return false for position out of bounds", () => {
+      expect(game.getState(-1, -1)).toBeFalsy()
+      expect(game.getState(8, 8)).toBeFalsy()
+      expect(game.getState(2, 8)).toBeFalsy()
+      expect(game.getState(-1, 5)).toBeFalsy()
+    })
+  })
+
+  describe('setPlayer()', () => {
+    it("should set the current player", () => {
+      game.setPlayer("toto")
+      expect(game.currentPlayer).toEqual("toto")
+    })
+  })
+
+  describe('getOpponent()', () => {
+    it("should return the BLACK'S opponent", () => {
+      expect(game.getOpponent()).toEqual('WHITE')
+    })
+    it("should return the WHITE'S opponent", () => {
+      game.setPlayer('WHITE')
+      expect(game.getOpponent()).toEqual('BLACK')
+    })
+  })
+
+  describe('getScore()', () => {
+    it("should return the score of the current player", () => {
+      expect(game.getScore('BLACK')).toEqual(2)
+      expect(game.getScore('WHITE')).toEqual(2)
+      game.setState(0, 0, 'WHITE')
+      expect(game.getScore('WHITE')).toEqual(3)
+      expect(game.getScore('BLACK')).toEqual(2)
+      game.setState(2, 2, 'WHITE')
+      expect(game.getScore('WHITE')).toEqual(4)
+      expect(game.getScore('BLACK')).toEqual(2)
     })
   })
 
@@ -48,20 +97,12 @@ describe('game service', () => {
     })
   })
 
-  describe('setPlayer()', () => {
-    it("should set the current player", () => {
-      game.setPlayer("toto")
-      expect(game.currentPlayer).toEqual("toto")
+  describe('isOk()', () => {
+    it('should return false if move does not close tiles of opponent', () => {
+      expect(game.isOk(5, 3, -1, -1)).toBeFalsy()
     })
-  })
-
-  describe('getOpponent()', () => {
-    it("should return the BLACK'S opponent", () => {
-      expect(game.getOpponent()).toEqual("WHITE")
-    })
-    it("should return the WHITE'S opponent", () => {
-      game.setPlayer('WHITE')
-      expect(game.getOpponent()).toEqual("BLACK")
+    it('should return true if move closes tiles of opponent', () => {
+      expect(game.isOk(4, 4, -1, 0)).toBeTruthy()
     })
   })
 
