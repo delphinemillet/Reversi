@@ -1,7 +1,9 @@
 <template>
   <table id="board">
     <tr v-for="(row, i) in game.rows" :key="i">
+      <th>{{ i }}</th>
       <td v-for="(col, j) in game.cols" :key="j">
+        <th v-if="!i">{{ j }}</th>
         <Tile @onClickTile="game.play(i, j)" :state="game.getState(i, j)" />
       </td>
     </tr>

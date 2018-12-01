@@ -1,4 +1,4 @@
-import { WHITE, BLACK, EMPTY, UNKNOWN } from "../constants/gameStates";
+import { WHITE, BLACK, EMPTY, SIZE } from "../constants/gameStates";
 
 export default {
   cols: Array(...Array(8)),
@@ -7,10 +7,9 @@ export default {
 
   // INITIALIZATION
   initGame() {
-    this.rows.map((row, i) => {
-      this.state[i] = []
-      this.rows.map(() => this.state[i].push(EMPTY))
-    })
+    this.state = Array(SIZE).fill([]).map(() =>
+      Array(SIZE).fill(EMPTY)
+    )
 
     this.setState(3, 3, WHITE)
     this.setState(3, 4, BLACK)
@@ -21,27 +20,42 @@ export default {
   },
 
   // TILE
-  isInsideBounds(value) {
-    return value >=0 && value <= 7
-  },
-
   setState(i, j, state) {
     this.state[i].splice(j, 1, state)
   },
 
   getState(i, j) {
-    return this.isInsideBounds(i) && this.isInsideBounds(j) ? this.state[i][j] : UNKNOWN
+    return this.state[i][j]
+  },
+
+  isInBounds(i, j) {
+    return i >= 0 && i < SIZE && j >= 0 && j < SIZE
   },
 
   isValid(i, j) {
-    const opponent = this.getOpponent()
-    return this.getState(i, j) === EMPTY
-      ? this.getState(i - 1, j) === opponent
-        || this.getState(i + 1, j) === opponent
-        || this.getState(i + 1, j) === opponent
-        || this.getState(i, j - 1) === opponent
-        || this.getState(i, j + 1) === opponent
-      : false
+    if(this.getState(i, j) !== EMPTY) return false
+
+    // check tile state for each possible direction from the current move
+    for(let x = -1; x <= 1; x++) {
+      for(let y = -1; y <= 1; y++) {
+        let nextRow = i + x;
+        let nextCol  = j + y
+        let opponentFound = false
+
+        // check if adjascent tile belong to the opponent
+        while(this.isInBounds(nextRow, nextCol) && this.getState(nextRow, nextCol) === this.getOpponent()) {
+          opponentFound = true
+          nextRow += x
+          nextCol += y
+        }
+
+        if(opponentFound) {
+          // check if the tile next to the opponent one belongs to the current player
+          if(this.getState(nextRow, nextCol) === this.currentPlayer) return true
+        }
+      }
+    }
+    return false
   },
 
   // PLAYERS
@@ -56,8 +70,12 @@ export default {
   // GAME
   play(i, j) {
     if(this.isValid(i, j)) {
+      console.log("YES")
       this.setState(i, j, this.currentPlayer)
       this.setPlayer(this.getOpponent())
+    } else {
+      console.log("NO")
     }
+
   }
 };
