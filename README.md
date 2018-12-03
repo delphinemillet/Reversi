@@ -1,6 +1,11 @@
+<p align="center">
+  <img src="https://i.imgur.com/lEDGC0k.png" />
+</p>
+
 # Reversi
 
 Implementation of Reversi game in VueJS
+> Final application link : https://delphinemillet.github.io/reversi/
 
 ## Prerequisites
 
