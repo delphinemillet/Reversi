@@ -35,7 +35,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #35495e;
-  margin-top: 60px;
 }
 
 .game {

@@ -1,9 +1,9 @@
 <template>
   <table id="board">
     <tr v-for="(row, i) in game.state" :key="i">
-      <th>{{ i }}</th>
+      <th class="row">{{ i }}</th>
       <td v-for="(col, j) in game.state[i]" :key="j">
-        <th v-if="!i">{{ j }}</th>
+        <th class="col" v-if="!i">{{ j }}</th>
         <Tile @onClickTile="game.play(i, j)" :state="{i, j}"/>
       </td>
     </tr>
@@ -29,6 +29,12 @@ export default {
 <style>
 #board {
   margin: auto;
-  background-color: darkcyan;
+  border-spacing: 1px;
+}
+.row:first-child {
+  padding-top: calc(3em / 2);
+}
+.col {
+  display: inline-table;
 }
 </style>

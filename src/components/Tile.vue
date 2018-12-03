@@ -1,6 +1,6 @@
 <template>
   <div
-    @click="$emit('onClickTile')"
+    @click="valid = false; $emit('onClickTile')"
     @mouseenter="valid = tileValidity"
     @mouseleave="valid = false"
     :class="{ valid }"
@@ -32,13 +32,12 @@ export default {
 
 <style>
 .tile {
-  width: 2em;
-  height: 2em;
-  border: 1px solid;
+  width: 3em;
+  height: 3em;
+  background-color: darkcyan;
 }
 .valid {
-  border-color: ghostwhite;
-  background: whitesmoke;
+  cursor: pointer;
   opacity: .5;
 }
 .BLACK {
