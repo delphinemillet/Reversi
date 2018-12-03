@@ -4,7 +4,7 @@
       <th>{{ i }}</th>
       <td v-for="(col, j) in game.state[i]" :key="j">
         <th v-if="!i">{{ j }}</th>
-        <Tile @onClickTile="game.play(i, j)" :state="col" />
+        <Tile @onClickTile="game.play(i, j)" :state="{i, j}"/>
       </td>
     </tr>
   </table>

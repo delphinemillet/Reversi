@@ -1,15 +1,32 @@
 <template>
-  <div @click="$emit('onClickTile')" class="tile">
-    <div :class="state" />
+  <div
+    @click="$emit('onClickTile')"
+    @mouseenter="valid = tileValidity"
+    @mouseleave="valid = false"
+    :class="{ valid }"
+    class="tile"
+  >
+    <div :class="tileState" />
   </div>
 </template>
 
 <script>
+import game from "../services/game"
 export default {
   name: 'RTile',
   props: {
-    state: String
+    state: Object,
   },
+
+  data: () => ({
+    game,
+    valid: false,
+  }),
+
+  computed: {
+    tileState() { return game.getState(this.state.i, this.state.j) },
+    tileValidity() { return game.isValid(this.state.i, this.state.j) }
+  }
 }
 </script>
 
@@ -18,6 +35,11 @@ export default {
   width: 2em;
   height: 2em;
   border: 1px solid;
+}
+.valid {
+  border-color: ghostwhite;
+  background: whitesmoke;
+  opacity: .5;
 }
 .BLACK {
   background-color: black;

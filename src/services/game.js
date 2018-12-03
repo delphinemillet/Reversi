@@ -99,12 +99,8 @@ export default {
 
   play(i, j) {
     if(this.isValid(i, j)) {
-      console.log("YES")
       this.switchTiles(i, j)
       this.setPlayer(this.getOpponent())
-    } else {
-      console.log("NO")
     }
-
   }
 };
