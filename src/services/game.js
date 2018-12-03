@@ -2,6 +2,7 @@ import { WHITE, BLACK, EMPTY, SIZE } from "../constants/gameStates";
 
 export default {
   state: [],
+  error: false,
 
   // INITIALIZATION
   initGame() {
@@ -41,6 +42,21 @@ export default {
 
   getScore(player) {
     return this.state.reduce((acc, row) => acc + row.filter(state => state === player).length, 0)
+  },
+
+  skip() {
+    let emptyTiles = []
+    this.state.map((row, i) => row.map((state, j) => {if(state === EMPTY) emptyTiles.push({ i, j })}))
+
+    let hasSolution = false;
+    emptyTiles.forEach(({ i, j }) => { if(this.isValid(i, j)) hasSolution = true })
+    if(hasSolution) {
+      this.error = true
+    }
+    else {
+      this.currentPlayer = this.getOpponent()
+      this.error = false
+    }
   },
 
   // GAME
@@ -98,6 +114,7 @@ export default {
   },
 
   play(i, j) {
+    this.error = false
     if(this.isValid(i, j)) {
       this.switchTiles(i, j)
       this.setPlayer(this.getOpponent())

@@ -79,6 +79,54 @@ describe('game service', () => {
     })
   })
 
+  describe('skip()', () => {
+    beforeEach(() => {
+      game.currentPlayer = 'BLACK'
+      game.error = false
+    })
+
+    it("should set error and not update current player if he can play", () => {
+      expect(game.currentPlayer).toEqual('BLACK')
+      expect(game.error).toBeFalsy()
+
+      game.skip()
+
+      expect(game.currentPlayer).toEqual('BLACK')
+      expect(game.error).toBeTruthy()
+    })
+
+    it("should not set error and update current player if he cannot play", () => {
+      // game setup to stuck BLACK
+      game.state = Array(8).fill([]).map(() =>
+        Array(8).fill('WHITE')
+      )
+      game.setState(0, 6, 'EMPTY')
+      game.setState(0, 7, 'EMPTY')
+      for(let i=0; i < 7; i++) game.setState(i, 5, 'BLACK')
+      for(let i=0; i < 6; i++) game.setState(7, i, 'BLACK')
+      for(let i=1; i < 6; i++) game.setState(0, i, 'BLACK')
+      for(let i=1; i < 6; i++) {
+        game.setState(i, 6, 'BLACK')
+        game.setState(i, 7, 'BLACK')
+      }
+      game.setState(1, 2, 'BLACK')
+      game.setState(1, 4, 'BLACK')
+      game.setState(2, 3, 'BLACK')
+      game.setState(3, 1, 'BLACK')
+      game.setState(6, 4, 'BLACK')
+      game.setState(4, 5, 'WHITE')
+      game.setState(6, 5, 'WHITE')
+
+      expect(game.currentPlayer).toEqual('BLACK')
+      expect(game.error).toBeFalsy()
+
+      game.skip()
+
+      expect(game.currentPlayer).toEqual('WHITE')
+      expect(game.error).toBeFalsy()
+    })
+  })
+
   describe('isValid()', () => {
     it('should return false if tile is not empty', () => {
       expect(game.isValid(3,3)).toBeFalsy()

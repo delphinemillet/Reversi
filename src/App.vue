@@ -5,6 +5,7 @@
     <div class="game">
       <Board />
       <Score />
+      <Skip @onSkip="skip" :error="game.error" :player="game.currentPlayer"/>
     </div>
   </div>
 </template>
@@ -13,6 +14,7 @@
 import Player from './components/Player.vue'
 import Board from './components/Board.vue'
 import Score from './components/Score.vue'
+import Skip from './components/Skip'
 import game from "./services/game"
 
 export default {
@@ -21,9 +23,18 @@ export default {
     Player,
     Board,
     Score,
+    Skip,
   },
   beforeCreate() {
     game.initGame()
+  },
+  methods: {
+    skip: () => game.skip()
+  },
+  data() {
+    return {
+      game,
+    }
   }
 }
 </script>
